@@ -1,8 +1,8 @@
 {
-  "name": "websocketTest",
-  "version": "0.1.3",
-  "description": "ExecAgent channel prototype",
-  "main": "lib/websocketTest.js",
+  "name": "ExecClient",
+  "version": "0.0.1",
+  "description": "ExecClient channel prototype",
+  "main": "lib/ExecClient.js",
   "scripts": {
     "build": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev",
@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Dechukni/ExecAgent.git"
+    "url": "https://github.com/Dechukni/ExecClient.git"
   },
   "dependencies": {
     "websocket": "^1.0.23"
