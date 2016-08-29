@@ -4,11 +4,11 @@ var ws;
 
 chai.use(chaiAsPromised);
 
-describe('Given an instance of my websocket', function () {
+describe('Given an instance of my ExecClientChannel', function () {
   before(function () {
     if (typeof(ws) === 'undefined') {
-      console.log('initiate new websocket');
-      ws = new WebsocketTest();
+      console.log('initiate new ExecClientChannel');
+      ws = new channel();
     }
   });
   describe('when I need a test that will pass 100%', function() {
@@ -17,8 +17,8 @@ describe('Given an instance of my websocket', function () {
         }
     );
   });
-  describe('when I need the opened socket', function () {
-    it('should return confirmation that socket is opened', function () {
+  describe('when I need the opened channel', function () {
+    it('should return confirmation that channel is opened', function () {
         return ws.onOpenPromise().should.eventually.equal('OpenedWebSocket');
       }
     );
