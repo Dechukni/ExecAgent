@@ -104,6 +104,8 @@ This function will send REST call that will unsubscribe process from channel
 
 This function will send REST call that will update subscription of process to specified event type at channel
 
-**all.info()**
+**all.info(boolean all)**
+
+-	**all(optional):** if true then all the processes including dead ones will be returned, otherwise if all is false, or not specified or invalid then only alive processes will be returned
 
 This function will send REST call that will result in array with entries containing information about every process at server
