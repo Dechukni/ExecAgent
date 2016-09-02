@@ -2,18 +2,54 @@
 
 import RESTcaller from './RESTcaller.js';
 import ExecClientChannel from '../src/ExecClientChannel.js';
+import utils from '../src/utils.js';
 
 export default class ExecClient {
   constructor(address = 'http://localhost', port = '9000', saveHistory = true) {
+    const caller = new RESTcaller(address);
+
     this.process = {
       start: function (nameObj, cmdLine) {
-        const caller = new RESTcaller(address);
-
         if (cmdLine !== undefined) {
-          caller.start({name: nameObj, commandLine: cmdLine});
-        } else {
-          caller.start(nameObj);
+          return caller.start({name: nameObj, commandLine: cmdLine});
         }
+        return caller.start(nameObj);
+      },
+      kill: function (pid) {
+        return caller.kill(pid);
+      },
+      info: function (pid) {
+        return caller.info(pid);
+      },
+      getLogs: function (pidObj) {
+        if (utils.isInt(pidObj)) {
+          return caller.getLogs(pidObj, {});
+        }
+        let pidReal = pidObj.pid;
+
+        delete pidObj.pid;
+        return caller.getLogs(pidReal, pidObj);
+      },
+      subscribe: function (pidObj, channel) {
+        if (channel !== undefined) {
+          return caller.subscribe({pid: pidObj, channel: channel});
+        }
+        let pidChannelReal = {pid: pidObj.pid, channel: pidObj.channel};
+
+        delete pidObj.pid;
+        delete pidObj.channel;
+        return caller.subscribe(pidChannelReal, pidObj);
+      },
+      unsubscribe: function (pid, channel) {
+        return caller.unsubscribe(pid, channel);
+      },
+      upsubscribe: function (pid, channel, types) {
+        return caller.upsubscribe(pid, channel, types);
+      }
+    };
+    this.all = {
+      info: function () {
+        return caller.allInfo();
       }
     };
   }
