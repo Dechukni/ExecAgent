@@ -26,7 +26,7 @@ export default class WebsocketAgent {
     };
   }
   invokeOperationCall(data) {
-    let promise = {id: data.id, answer: new Promise()};
+    let promise = {id: data.id, answer: new Promise((resolve, reject) => (resolve(this)))};
 
     this.socket.send(data);
     this.promises.push(promise);

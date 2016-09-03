@@ -3,7 +3,7 @@
 import WebsocketAgent from './WebsocketAgent.js';
 
 export default class ExecClientChannel {
-  constructor() {
-    this.websocket = new WebsocketAgent();
+  constructor(address = 'ws://localhost:9000/connect') {
+    this.websocket = new WebsocketAgent(address);
   }
 }
