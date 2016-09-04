@@ -1,36 +1,51 @@
 'use strict';
 
-import * as ws from 'websocket';
-
 export default class WebsocketAgent {
   constructor(url) {
     this.handlers = [];
-    this.promises = [];
-    this.socket = new ws.w3cwebsocket(url);
+    this.promiseResolvers = [];
+    this.promiseRejecters = [];
+    this.socket = new WebSocket(url);
 
     this.socket.onmessage = (event) => {
       let parsedEvent = JSON.parse(event.data);
 
-      for (let promise of this.promises) {
-        if (promise.id === parsedEvent.id) {
-          if (parsedEvent.body !== null) {
-            promise.answer = Promise.resolve(parsedEvent.body);
-          } else {
-            promise.answer = Promise.reject(parsedEvent.err);
-          }
+      if (parsedEvent.id !== undefined) {
+        if (parsedEvent.body !== null) {
+          this.promiseResolvers[parsedEvent.id](parsedEvent.body);
+        } else {
+          this.promiseRejecters[parsedEvent.id](parsedEvent.err);
         }
-      }
-      for (let handler of this.handlers) {
-        handler(parsedEvent);
+      } else {
+        for (let handler of this.handlers) {
+          handler(parsedEvent);
+        }
       }
     };
   }
+  waitUntilOpen() {
+    return new Promise(
+      (resolve) => {
+        if (this.socket.readyState === 1) {
+          resolve();
+        } else {
+          this.socket.onopen = () => {
+            resolve();
+          };
+        }
+      }
+    );
+  }
   invokeOperationCall(data) {
-    let promise = {id: data.id, answer: new Promise((resolve, reject) => (resolve(this)))};
-
-    this.socket.send(data);
-    this.promises.push(promise);
-    return promise.answer;
+    return this.waitUntilOpen()
+      .then(() => {
+        this.socket.send(JSON.stringify(data));
+        return new Promise(
+          (resolve, reject) => {
+            this.promiseResolvers[data.id] = resolve;
+            this.promiseRejecters[data.id] = reject;
+          });
+      });
   }
   addEventHandler(handler) {
     this.handlers.push(handler);
