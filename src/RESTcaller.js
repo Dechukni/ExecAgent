@@ -225,11 +225,12 @@ export default class RESTcaller {
           });
       });
   }
-  allInfo() {
+  allInfo(all) {
     return new Promise(
       (resolve, reject) => {
         request
-          .get(`${this.url}/process}`)
+          .get(`${this.url}/process`)
+          .query(all)
           .set('Accept', 'application/json')
           .end(function (err, res) {
             if (err || !res.ok) {

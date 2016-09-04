@@ -48,8 +48,8 @@ export default class ExecClient {
       }
     };
     this.all = {
-      info: function () {
-        return caller.allInfo();
+      info: function (all) {
+        return caller.allInfo(all);
       }
     };
   }

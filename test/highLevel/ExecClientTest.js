@@ -11,7 +11,7 @@ describe('Given an instance of my ExecClient', function () {
   before(function () {
     if (typeof (client) === 'undefined') {
       console.log('initiate new ExecClientChannel');
-      client = new ExecClient();
+      client = new ExecClient('http://192.168.1.242:9000');
     }
   });
   describe('when I need a test that will pass 100%', function () {
@@ -70,7 +70,7 @@ describe('Given an instance of my ExecClient', function () {
       var resultElem;
       var resultElemName;
 
-      resultElemName = client.process.start('noOneEverWillCreateProcessWithThatStupidName', 'mvn build')
+      resultElemName = client.process.start('noOneEverWillCreateProcessWithThatStupidName', 'ping ya.ru')
         .then(function () {
           return client.all.info(true);
         })
