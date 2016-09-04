@@ -6,7 +6,8 @@ import utils from '../src/utils.js';
 
 export default class ExecClient {
   constructor(address = 'http://localhost', port = '9000', saveHistory = true) {
-    const caller = new RESTcaller(address);
+    this.address = `${address}:${port}`;
+    const caller = new RESTcaller(this.address);
 
     this.process = {
       start: function (nameObj, cmdLine) {
@@ -54,6 +55,8 @@ export default class ExecClient {
     };
   }
   channel() {
-    return new ExecClientChannel();
+    let channelAddress = `${this.address.replace('http', 'ws')}/connect`;
+
+    return new ExecClientChannel(channelAddress);
   }
 }
