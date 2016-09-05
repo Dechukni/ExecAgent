@@ -15,17 +15,19 @@ export default class WebsocketAgent {
 
       if (parsedEvent.id !== undefined) {
         if (parsedEvent.body !== null) {
-          if (parsedEvent.body.commandLine !== undefined) {
-            this.handlers[parsedEvent.body.pid].push(this.tempHandler[parsedEvent.id]);
+          if (parsedEvent.body.commandLine !== undefined && this.tempHandler[parsedEvent.id] !== undefined) {
+            this.addEventHandler(parsedEvent.body.pid, this.tempHandler[parsedEvent.id]);
           }
           this.promiseResolvers[parsedEvent.id](parsedEvent.body);
         } else {
-          this.promiseRejecters[parsedEvent.id](parsedEvent.err);
+          this.promiseRejecters[parsedEvent.id](parsedEvent.error);
         }
       } else {
         if (this.shouldHandleEvents) {
-          for (let handler of this.handlers[parsedEvent.body.pid]) {
-            handler(parsedEvent);
+          if (this.handlers[parsedEvent.body.pid] !== undefined) {
+            for (let handler of this.handlers[parsedEvent.body.pid]) {
+              handler(parsedEvent);
+            }
           }
         }
       }
@@ -56,6 +58,9 @@ export default class WebsocketAgent {
       });
   }
   addEventHandler(pid, handler) {
+    if (this.handlers[pid] === undefined) {
+      this.handlers[pid] = [];
+    }
     this.handlers[pid].push(handler);
   }
   addTempEventHandler(id, handler) {

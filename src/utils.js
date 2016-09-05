@@ -1,6 +1,6 @@
 'use strict';
 
-import Puid from 'puid';
+let cuid = require('cuid');
 
 export default class utils {
   static isInt(value) {
@@ -12,8 +12,6 @@ export default class utils {
     return (x | 0) === x;
   }
   static generateId() {
-    let puid = new Puid();
-
-    return puid.generate();
+    return cuid();
   }
 }
