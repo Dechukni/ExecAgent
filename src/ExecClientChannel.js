@@ -73,5 +73,13 @@ export default class ExecClientChannel {
         return websocket.invokeOperationCall(data);
       }
     };
+    this.all = {
+      startEventHandling: function () {
+        websocket.shouldHandleEvents = true;
+      },
+      stopEventHandling: function () {
+        websocket.shouldHandleEvents = false;
+      }
+    };
   }
 }
