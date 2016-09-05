@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 describe('Given an instance of my ExecClientChannel', function () {
   before(function () {
     if (typeof (chan) === 'undefined') {
-      client = new ExecClient('http://192.168.1.242');
+      client = new ExecClient('192.168.1.242');
       chan = client.channel();
       ws = chan.websocket;
     }

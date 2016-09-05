@@ -1,12 +1,12 @@
 'use strict';
 
 import RESTcaller from './RESTcaller.js';
-import ExecClientChannel from '../src/ExecClientChannel.js';
-import utils from '../src/utils.js';
+import ExecClientChannel from './ExecClientChannel.js';
+import utils from './utils.js';
 
 export default class ExecClient {
-  constructor(address = 'http://localhost', port = '9000', saveHistory = true) {
-    this.address = `${address}:${port}`;
+  constructor(address = 'localhost', port = '9000', saveHistory = true) {
+    this.address = `http://${address}:${port}`;
     const caller = new RESTcaller(this.address);
 
     this.process = {

@@ -1,5 +1,5 @@
 'use strict';
 
-import ExecClient from '../src/ExecClient.js';
+import ExecClient from './ExecClient.js';
 
 export { ExecClient as default };
