@@ -1,5 +1,7 @@
 'use strict';
 
+import * as ws from 'websocket';
+
 export default class WebsocketAgent {
   constructor(url) {
     this.handlers = [];
@@ -9,7 +11,7 @@ export default class WebsocketAgent {
     this.promiseResolvers = [];
     this.promiseRejecters = [];
 
-    this.socket = new WebSocket(url);
+    this.socket = new ws.w3cwebsocket(url);
     this.socket.onmessage = (event) => {
       let parsedEvent = JSON.parse(event.data);
 
