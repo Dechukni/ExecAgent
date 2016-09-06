@@ -10,7 +10,7 @@ chai.use(chaiAsPromised);
 describe('Given an instance of my ExecClient', function () {
   before(function () {
     if (typeof (client) === 'undefined') {
-      client = new ExecClient('192.168.1.242');
+      client = new ExecClient(execAgentUrl);
     }
   });
   describe('when I need a test that will pass 100%', function () {

@@ -7,7 +7,7 @@ chai.use(chaiAsPromised);
 describe('Given an instance of my ExecClientChannel', function () {
   before(function () {
     if (typeof (client) === 'undefined') {
-      client = new ExecClient('192.168.1.242');
+      client = new ExecClient(execAgentUrl);
     }
     channel = client.channel();
   });
